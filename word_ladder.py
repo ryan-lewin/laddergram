@@ -1,19 +1,33 @@
+"""
+Code currently returns every possible word between the start and target words. 
+leade to gold -> path == 481 | goal path == 3
+"""
+
 import re
+
 def same(item, target):
+  """
+  Returns the number of matching letters in the item and target
+  """
   return len([c for (c, t) in zip(item, target) if c == t])
 
 def build(pattern, words, seen, list):
-  return [word for word in words
-                 if re.search(pattern, word) and word not in seen.keys() and
-                    word not in list]
+  """
+  Returns a list of words from the read file that match the pattern against the target word and are not
+  in the seen dict
+  """
+  return [word for word in words if re.search(pattern, word) and word not in seen.keys() and word not in list]
 
 def find(word, words, seen, target, path):
+  """
+  Creates a list of possible words and loops over until target word is reached
+  """
   list = []
   for i in range(len(word)):
-    list += build(word[:i] + "." + word[i + 1:], words, seen, list)
+    list += build(word[:i] + "." + word[i + 1:], words, seen, list) #calls build with a list of patterns e.g. .ead, l.ad, le.d, lead. and feeds to build function
   if len(list) == 0:
     return False
-  list = sorted([(same(w, target), w) for w in list])
+  list = sorted([(same(w, target), w) for w in list]) # updates list to include matches with word and sorts by number of matches
   for (match, item) in list:
     if match >= len(target) - 1:
       if match == len(target) - 1:
@@ -26,7 +40,8 @@ def find(word, words, seen, target, path):
       return True
     path.pop()
 
-fname = input("Enter dictionary name: ")
+# fname = input("Enter dictionary name: ")
+fname = 'dictionary.txt'
 file = open(fname)
 lines = file.readlines()
 while True:
