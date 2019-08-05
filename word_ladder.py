@@ -5,6 +5,18 @@ leade to gold -> path == 481 | goal path == 3
 
 import re
 
+def find_matches(start, target):
+  """
+  Returns a list of bools indicating whether each index in start and target matches
+  """
+  letters = []
+  for count, letter in enumerate(zip(start, target)):
+    if(letter[0] == letter[1]):
+      letters.append(True)
+    else:
+      letters.append(False)
+  return letters
+
 def same(item, target):
   """
   Returns the number of matching letters in the item and target
@@ -23,11 +35,12 @@ def find(word, words, seen, target, path):
   Creates a list of possible words and loops over until target word is reached
   """
   list = []
+  letters_match = find_matches(start, target)
   for i in range(len(word)):
     list += build(word[:i] + "." + word[i + 1:], words, seen, list) #calls build with a list of patterns e.g. .ead, l.ad, le.d, lead. and feeds to build function
   if len(list) == 0:
     return False
-  list = sorted([(same(w, target), w) for w in list]) # updates list to include matches with word and sorts by number of matches
+  list = sorted([(same(w, target), w) for w in list]) # updates list to include number of matching letters and sorts by number of matches
   for (match, item) in list:
     if match >= len(target) - 1:
       if match == len(target) - 1:
