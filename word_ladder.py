@@ -40,7 +40,7 @@ def find(word, words, seen, target, path):
     list += build(word[:i] + "." + word[i + 1:], words, seen, list) #calls build with a list of patterns e.g. .ead, l.ad, le.d, lead. and feeds to build function
   if len(list) == 0:
     return False
-  list = sorted([(same(w, target), w) for w in list]) # updates list to include number of matching letters and sorts by number of matches
+  list = sorted([(same(w, target), w) for w in list], reverse=True) # updates list to include number of matching letters and sorts by number of matches
   for (match, item) in list:
     if match >= len(target) - 1:
       if match == len(target) - 1:
