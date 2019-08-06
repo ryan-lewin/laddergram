@@ -5,17 +5,15 @@ leade to gold -> path == 481 | goal path == 3
 
 import re
 
-# def find_matches(start, target):
-#   """
-#   Returns a list of bools indicating whether each index in start and target matches
-#   """
-#   letters = []
-#   for count, letter in enumerate(zip(start, target)):
-#     if(letter[0] == letter[1]):
-#       letters.append(True)
-#     else:
-#       letters.append(False)
-#   return letters
+def match_letters(word, target):
+  """
+  Searches for matching letters between the search word and target. Returns a list of the indexes of the
+  matching letters.
+  """
+  matches = []
+  if (sum(1 for (c, t) in zip(word, target) if c == t)) > 0:
+    matches = [i for i, x in enumerate(zip(word, target)) if all(y == x[0] for y in x)]
+  return matches
 
 def same(item, target):
   """
@@ -35,13 +33,10 @@ def find(word, words, seen, target, path):
   Creates a list of possible words and loops over until target word is reached
   """
   list = []
-  matchedletters = []
+  matching_letters = match_letters(word, target)
 
-  if (sum(1 for (c, t) in zip(word, target) if c == t)) > 0:
-    matchedletters = [i for i, x in enumerate(zip(word, target)) if all(y == x[0] for y in x)]
- 
   for i in range(len(word)):
-    if i not in matchedletters:
+    if i not in matching_letters:
       list += build(word[:i] + "." + word[i + 1:], words, seen, list) #calls build with a list of patterns e.g. .ead, l.ad, le.d, lead. and feeds to build function
   
   if len(list) == 0:
@@ -62,18 +57,17 @@ def find(word, words, seen, target, path):
       return True
     path.pop()
 
-# fname = input("Enter dictionary name: ")
-fname = 'dictionary.txt'
+fname = input("Enter dictionary name: ")
 file = open(fname)
 lines = file.readlines()
 while True:
-  start = input("Enter start word:")
+  start = input("Enter start word: ")
   words = []
   for line in lines:
     word = line.rstrip()
     if len(word) == len(start):
       words.append(word)
-  target = input("Enter target word:")
+  target = input("Enter target word: ")
   break
 
 count = 0
