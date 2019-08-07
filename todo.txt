@@ -2,7 +2,7 @@
 [INCOMPLETE] Produce a software design document based on the sample template for this program. In particular you must document each function within the program stating clearly what theydo and how theydo it. 
 
 *PROGRAM*
-[INCOMPLETE] All possible user input errors are handled correctly.
+[COMPLETE] All possible user input errors are handled correctly.
 
 [COMPLETE] The program performs as it did before the less talented programmer got his hands  on  it.  In  particular  it  must  go  from “lead” to “gold” in 3 steps and “hide” to “seek”in 6 steps.
 

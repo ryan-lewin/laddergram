@@ -1,8 +1,3 @@
-"""
-Code currently returns every possible word between the start and target words. 
-leade to gold -> path == 481 | goal path == 3
-"""
-
 import re, os
 
 def match_letters(word, target):
