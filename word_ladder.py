@@ -3,7 +3,7 @@ Code currently returns every possible word between the start and target words.
 leade to gold -> path == 481 | goal path == 3
 """
 
-import re
+import re, os
 
 def match_letters(word, target):
   """
@@ -61,37 +61,36 @@ def legal_word(word):
   """
   Returns true is all chars in provided word are alpha. Returns false if letters are numeric.
   """
-  word = word.strip().upper()
-  for i in word:
+  clean_word = word.strip().upper()
+  for i in clean_word:
     if not i.isalpha():
-      return False
-  return True
+      return legal_word(input('Invalid entry, try again: '))
+  return word
 
 def legal_dictionary(f_name):
   """
-  Validates the input of the dictionary file name and returns false if the file is not a txt file.
+  Validates the input of the dictionary file name. Triggers retry if file name is invalid or if
+  the file doesnt exist in the path'
   """
-  f_name = f_name.split('.')
-  print(len(f_name))
-  if len(f_name) != 2:
-    return False
-  elif f_name[1] != 'txt':
-    return False
-  return True
+  f_name_parts = f_name.split('.')
+  if len(f_name_parts) != 2 or f_name_parts[1] != 'txt':
+    return(legal_dictionary(input('Invalid file, try again: ')))
+  elif not os.path.exists(f_name):
+    return(legal_dictionary(input('Invalid file, try again: ')))
+  return f_name
 
-print(legal_dictionary('test_file.txt'))
+fname = legal_dictionary(input("Enter dictionary name: "))
 
-fname = input("Enter dictionary name: ")
 file = open(fname)
 lines = file.readlines()
 while True:
-  start = input("Enter start word: ")
+  start = legal_word(input("Enter start word: "))
   words = []
   for line in lines:
     word = line.rstrip()
     if len(word) == len(start):
       words.append(word)
-  target = input("Enter target word: ")
+  target = legal_word(input("Enter target word: "))
   break
 
 count = 0
