@@ -57,6 +57,30 @@ def find(word, words, seen, target, path):
       return True
     path.pop()
 
+def legal_word(word):
+  """
+  Returns true is all chars in provided word are alpha. Returns false if letters are numeric.
+  """
+  word = word.strip().upper()
+  for i in word:
+    if not i.isalpha():
+      return False
+  return True
+
+def legal_dictionary(f_name):
+  """
+  Validates the input of the dictionary file name and returns false if the file is not a txt file.
+  """
+  f_name = f_name.split('.')
+  print(len(f_name))
+  if len(f_name) != 2:
+    return False
+  elif f_name[1] != 'txt':
+    return False
+  return True
+
+print(legal_dictionary('test_file.txt'))
+
 fname = input("Enter dictionary name: ")
 file = open(fname)
 lines = file.readlines()

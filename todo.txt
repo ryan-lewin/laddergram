@@ -1,5 +1,5 @@
 *DOCS*
-[INCOMPLETE]  Produce   a software  design document   based  on   the   sample template for this program. In particular you must document each function within the program stating clearly what theydo and how theydo it. 
+[INCOMPLETE] Produce a software design document based on the sample template for this program. In particular you must document each function within the program stating clearly what theydo and how theydo it. 
 
 *PROGRAM*
 [INCOMPLETE] All possible user input errors are handled correctly.
