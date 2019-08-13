@@ -74,18 +74,22 @@ def legal_dictionary(f_name):
     return(legal_dictionary(input('Invalid file, try again: ')))
   return f_name
 
+def excluded_words(words_string):
+  return words_string.split()
+
 fname = legal_dictionary(input("Enter dictionary name: "))
 
 file = open(fname)
 lines = file.readlines()
 while True:
   start = legal_word(input("Enter start word: "))
+  target = legal_word(input("Enter target word: "))
+  exclusions = input('Enter words you wish to exclude seperated by a space: ')
   words = []
   for line in lines:
     word = line.rstrip()
-    if len(word) == len(start):
+    if len(word) == len(start) and word not in exclusions:
       words.append(word)
-  target = legal_word(input("Enter target word: "))
   break
 
 count = 0
