@@ -77,6 +77,22 @@ def legal_dictionary(f_name):
 def excluded_words(words_string):
   return words_string.split()
 
+def existsAlongPath(pitStop):
+  """
+   Forces the input word to appear along the path.
+   start -> pitStop -> target
+  """
+  if find(start, words, seen, pitStop, path):     #start -> pitStop
+    path.append(pitStop)
+  else:
+    print("No path found")
+  if find(pitStop, words, seen, target, path):    #pitStop -> target
+    path.append(target)
+    print(len(path), path)                        #path-1 is incorrect count
+  else:
+    print("No path found")
+
+
 fname = legal_dictionary(input("Enter dictionary name: "))
 
 file = open(fname)
@@ -84,7 +100,8 @@ lines = file.readlines()
 while True:
   start = legal_word(input("Enter start word: "))
   target = legal_word(input("Enter target word: "))
-  exclusions = input('Enter words you wish to exclude seperated by a space: ')
+  exclusions = input('Enter words you wish to exclude separated by a space: ')
+  pitStop = legal_word(input("Enter a word that must be exist along the start and target path: "))
   words = []
   for line in lines:
     word = line.rstrip()
@@ -95,9 +112,12 @@ while True:
 count = 0
 path = [start]
 seen = {start : True}
-if find(start, words, seen, target, path):
-  path.append(target)
-  print(len(path) - 1, path)
+if not pitStop:
+  if find(start, words, seen, target, path):
+    path.append(target)
+    print(len(path) - 1, path)
+  else:
+    print("No path found")
 else:
-  print("No path found")
+  existsAlongPath(pitStop)
 
