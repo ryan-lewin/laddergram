@@ -1,4 +1,4 @@
-*DOCS*
+﻿*DOCS*
 [INCOMPLETE] Produce a software design document based on the sample template for this program. In particular you must document each function within the program stating clearly what theydo and how theydo it. 
 
 *PROGRAM*
@@ -10,6 +10,10 @@
 [INCOMPLETE] You must use the Python unittest module to test the functions of your program and provide  testcasesfor  each  function.  Note  that  to  facilitate  the  testing,  you  can rewrite the code to make it testable.
 
 *EXTRA*
-[INCOMPLETE] The user can supply a list of words that are not allowed to be used within the steps from a start word to a target word.
+[INCOMPLETE] The user can supply a list of words that are not 
+	     allowed to be used within the steps from a start word to a target word.
 
-[INCOMPLETE] The  user  has  the  option  of supplying  a  word  that  must  exist on  the  path  to the  target  word.  (HINT:split  this  into  2 paths,  making  sure  the  target  word doesn’t appear on the first path to the intermediary word)
+[COMPLETE] The  user  has  the  option  of supplying  a  word  
+	     that  must  exist on  the  path  to the  target  word.  
+	     (HINT:split  this  into  2 paths,  making  sure  the  target  
+             word doesn’t appear on the first path to the intermediary word)
