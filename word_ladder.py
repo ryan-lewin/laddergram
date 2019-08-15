@@ -52,14 +52,17 @@ def find(word, words, seen, target, path):
       return True
     path.pop()
 
-def legal_word(word):
+def legal_word(word, start_word = None):
   """
   Returns true is all chars in provided word are alpha. Returns false if letters are numeric.
   """
   clean_word = word.strip().upper()
-  for i in clean_word:
-    if not i.isalpha():
-      return legal_word(input('Invalid entry, try again: '))
+  if start_word == None or len(start_word) == len(clean_word):
+    for i in clean_word:
+      if not i.isalpha():
+        return legal_word(input('Invalid entry, try again: '))
+  elif len(start_word) != len(clean_word):
+        return legal_word(input('Invalid entry, please enter a word of the same length: '), start_word)
   return word
 
 def legal_dictionary(f_name):
@@ -79,8 +82,8 @@ def excluded_words(words_string):
 
 def existsAlongPath(pitStop):
   """
-   Forces the input word to appear along the path.
-   start -> pitStop -> target
+  Forces the input word to appear along the path.
+  start -> pitStop -> target
   """
   if find(start, words, seen, pitStop, path):     #start -> pitStop
     path.append(pitStop)
@@ -99,9 +102,9 @@ file = open(fname)
 lines = file.readlines()
 while True:
   start = legal_word(input("Enter start word: "))
-  target = legal_word(input("Enter target word: "))
-  exclusions = input('Enter words you wish to exclude separated by a space: ')
-  pitStop = legal_word(input("Enter a word that must be exist along the start and target path: "))
+  target = legal_word(input("Enter target word: "), start)
+  exclusions = input('Enter words you wish to exclude separated by a space or press enter to skip: ')
+  pitStop = legal_word(input("Enter a word that must exist along the path from start to target or enter to skip: "), start)
   words = []
   for line in lines:
     word = line.rstrip()
