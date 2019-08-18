@@ -106,7 +106,7 @@ def read_dictionary(fname):
 
 while True:
   while True:
-    fname = input('enter: ')
+    fname = ('dictionary.txt')
     if legal_dictionary(fname):
       break
     print('Invalid Filename!')
