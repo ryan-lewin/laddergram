@@ -2,11 +2,10 @@ import re, os
 
 def match_letters(start_word, target):
   """
-  Searches for matching letters between the search word and target. Returns a list of the indexes of the
+  Searches for matching letters between the search word and target. Returns a list with indexes of the
   matching letters.
   """
   matches = []
-  # if (sum(1 for (c, t) in zip(word, target) if c == t)) > 0:
   for(start_word_i, target_i) in zip(start_word, target):
     if start_word_i == target_i:
       matches = [i for i, x in enumerate(zip(start_word, target)) if all(y == x[0] for y in x)]
@@ -56,28 +55,26 @@ def find(word, words, seen, target, path):
 
 def legal_word(word, start_word = None):
   """
-  Returns true is all chars in provided word are alpha. Returns false if letters are numeric.
+  Validates word. Returns True if word is alpha and optionally if word lengths match.
   """
-  clean_word = word.strip().upper()
-  if start_word == None or len(start_word) == len(clean_word):
-    for i in clean_word:
+  if start_word == None or len(start_word) == len(word):
+    for i in word:
       if not i.isalpha():
-        return legal_word(input('Invalid entry, try again: '))
-  elif len(start_word) != len(clean_word):
-        return legal_word(input('Invalid entry, please enter a word of the same length: '), start_word)
-  return word
+        return False
+  elif len(start_word) != len(word):
+        return False
+  return True
 
 def legal_dictionary(f_name):
   """
-  Validates the input of the dictionary file name. Triggers retry if file name is invalid or if
-  the file doesnt exist in the path'
+  Validates the input of the dictionary file name. Returns True is dictionary exists and is a falid file, else False'
   """
   f_name_parts = f_name.split('.')
   if len(f_name_parts) != 2 or f_name_parts[1] != 'txt':
-    return(legal_dictionary(input('Invalid file, try again: ')))
+    return False
   elif not os.path.exists(f_name):
-    return(legal_dictionary(input('Invalid file, try again: ')))
-  return f_name
+    return False
+  return True
 
 def excluded_words(words_string):
   return words_string.split()
@@ -104,16 +101,27 @@ def read_dictionary(fname):
   for line in lines:
     word = line.rstrip()
     if len(word) == len(start) and word not in exclusions:
-      words.append(word)
+      words.append(word.upper())
   return words
 
 while True:
-  fname = legal_dictionary(input("Enter dictionary name: "))
-  start = legal_word(input("Enter start word: "))
-  target = legal_word(input("Enter target word: "), start)
+  while True:
+    fname = input('enter: ')
+    if legal_dictionary(fname):
+      break
+    print('Invalid Filename!')
+  while True:
+    start = input("Enter start word: ").strip().upper()
+    if legal_word(start):
+      break
+    print('Invalid Entry!')
+  while True:
+    target = input("Enter target word: ").strip().upper()
+    if legal_word(target):
+      break
+    print('Invalid Entry!')
   exclusions = input('Enter words you wish to exclude separated by a space or press enter to skip: ')
-  pit_stop_required = input('Would you like to include a mandatory word along the path? [Enter Y for yes]: ').upper()
-  # pitStop = legal_word(input("Enter a word that must exist along the path from start to target: "), start)
+  pit_stop_required = input('Would you like to include a mandatory word along the path? [Enter Y for yes]: ').strip().upper()
   words = read_dictionary(fname)
   break
 
@@ -127,6 +135,6 @@ if pit_stop_required != 'Y':
   else:
     print("No path found")
 else:
-  pitStop = legal_word(input("Enter a word that must exist along the path from start to target: "), start)
-  existsAlongPath(pitStop)
+  pit_stop = legal_word(input("Enter a word that must exist along the path from start to target: "), start)
+  existsAlongPath(pit_stop)
 
