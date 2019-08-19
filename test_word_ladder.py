@@ -1,31 +1,50 @@
 import unittest
-from word_ladder import legal_word
+import os
+from word_ladder import*
 
 class TestLegalWord(unittest.TestCase):
-    def test1_is_alpha(self):
+    def test_all_alpha(self):
         word = 'hello'
         self.assertTrue(legal_word(word))
 
-    def test2_is_alpha(self):
+    def test_not_alpha(self):
         word = '$$hELLO999'
         self.assertFalse(legal_word(word))
 
-    def test3_is_alpha(self):
+    def test_if_numbers(self):
         word = '1234567'
         self.assertFalse(legal_word(word))
 
-    def test1_same_length(self):
+    def yesy_same_length(self):
         first = 'lead'
         second = 'gold'
         self.assertTrue(legal_word(first, second))
     
-    def test2_same_length(self):
+    def test_not_same_length(self):
         first = 'bird'
         second = 'goanna'
         self.assertFalse(legal_word(first, second))
 
 class TestLegalDictionary(unittest.TestCase):
-    
+    def test_invalid_fname(self):
+        fname = 'open.this.file.txt'
+        self.assertFalse(legal_dictionary(fname))
+
+    def test_valid_fname_exists(self):
+        fname = 'this-is-a-valid-file.txt'
+        test_file = open(fname, 'x')
+        self.assertTrue(legal_dictionary(fname))
+        os.remove(fname)
+
+    def test_not_exists(self):
+        fname = 'file.txt'
+        self.assertFalse(legal_dictionary(fname))
+
+    def test_exists(self):
+        fname = 'testfile.txt'
+        test_file = open(fname, 'x')
+        self.assertTrue(legal_dictionary(fname))
+        os.remove(fname)
 
 
 if __name__ == "__main__":
