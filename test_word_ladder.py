@@ -47,7 +47,6 @@ class TestLegalDictionary(unittest.TestCase):
         os.remove(fname)
 
 class TestExcludedWords(unittest.TestCase):
-
     def test_correct_splitting(self):
         string = 'This is a test string'
         self.assertEqual(excluded_words(string), ['This', 'is', 'a', 'test', 'string'])
@@ -60,6 +59,22 @@ class TestExcludedWords(unittest.TestCase):
         string = 'This is a test string'
         length = 5
         self.assertEqual(len(excluded_words(string)), length)
+
+class TestSame(unittest.TestCase):
+    def test_one_match(self):
+        first = 'bear'
+        second = 'claw'
+        self.assertEqual(same(first, second), 1)
+
+    def test_all_match(self):
+        first = 'same'
+        second = 'same'
+        self.assertEqual(same(first, second), 4)
+
+    def test_all_match(self):
+        first = 'none'
+        second = '----'
+        self.assertEqual(same(first, second), 0)
 
 if __name__ == "__main__":
     unittest.main()
