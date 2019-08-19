@@ -113,5 +113,12 @@ class TestReadDictionary(unittest.TestCase):
         filtered = [False for word in words if len(word) != len(start)]
         self.assertTrue(False not in filtered)
 
+class TestExistsAlongPath(unittest.TestCase):
+    def no_path_exists(self):
+        words = ['test', 'rest', 'flow', 'stop', 'neck']
+        start = 'gold'
+        pit_stop = 'hide'
+        self.assertEqual(exists_along_path(start, words, {}, pit_stop, [], 'No path found'))
+
 if __name__ == "__main__":
     unittest.main()

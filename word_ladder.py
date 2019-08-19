@@ -37,7 +37,6 @@ def find(word, words, seen, target, path):
   for i in range(len(word)):
     if i not in matching_letters:
       list += build(word[:i] + "." + word[i + 1:], words, seen, list) #calls build with a list of patterns e.g. .ead, l.ad, le.d, lead. and feeds to build function
-      print(list)
   if len(list) == 0:
     return False
 
@@ -56,11 +55,13 @@ def find(word, words, seen, target, path):
       return True
     path.pop()
 
-def legal_word(word, start_word = None):
+def legal_word(word, words, start_word = None):
   """
   Validates word. Returns True if word is alpha and optionally if word lengths match.
   """
-  if start_word == None or len(start_word) == len(word):
+  if word not in words:
+    return False
+  elif start_word == None or len(start_word) == len(word):
     for i in word:
       if not i.isalpha():
         return False
@@ -82,64 +83,73 @@ def legal_dictionary(f_name):
 def excluded_words(words_string):
   return words_string.split()
 
-def existsAlongPath(pitStop):
+def path_with_stop(start, words, seen, target, pit_stop, path):
   """
   Forces the input word to appear along the path.
   start -> pitStop -> target
   """
-  if find(start, words, seen, pitStop, path):     #start -> pitStop
-    path.append(pitStop)
+  if find(start, words, seen, pit_stop, path):     #start -> pitStop
+    path.append(pit_stop)
   else:
-    print("No path found")
-  if find(pitStop, words, seen, target, path):    #pitStop -> target
+    pit_stop = start
+    print("No path found from start to target with mandatory word.")
+  if find(pit_stop, words, seen, target, path):    #pitStop -> target
     path.append(target)
     print(len(path) - 1, path)                        
   else:
-    print("No path found")
+    print("No path found from start to target.")
 
-def read_dictionary(fname, start, exclusions):
+
+def read_dictionary(fname, start = None, exclusions = None):
   file = open(fname)
   lines = file.readlines()
   words = []
   for line in lines:
     word = line.rstrip()
-    if len(word) == len(start) and word not in exclusions:
+    if start != None:
+      if len(word) == len(start) and word not in exclusions:
+        words.append(word.upper())
+    else:
       words.append(word.upper())
   return words
 
-# print(len(read_dictionary('dictionary.txt', 'aa', [])))
+while True:
+  words = []
+  while True:
+    fname = ('dictionary.txt')
+    if legal_dictionary(fname):
+      words = read_dictionary(fname)
+      break
+    print('Invalid Filename!')
+  while True:
+    start = input("Enter start word: ").strip().upper()
+    if legal_word(start, words):
+      break
+    print('Invalid Entry!')
+  while True:
+    target = input("Enter target word: ").strip().upper()
+    if legal_word(target, words):
+      break
+    print('Invalid Entry!')
+  exclusions = input('Enter words you wish to exclude separated by a space or press enter to skip: ')
+  pit_stop_required = input('Would you like to include a mandatory word along the path? [Enter Y for yes]: ').strip().upper()
 
-# while True:
-#   while True:
-#     fname = ('dictionary.txt')
-#     if legal_dictionary(fname):
-#       break
-#     print('Invalid Filename!')
-#   while True:
-#     start = input("Enter start word: ").strip().upper()
-#     if legal_word(start):
-#       break
-#     print('Invalid Entry!')
-#   while True:
-#     target = input("Enter target word: ").strip().upper()
-#     if legal_word(target):
-#       break
-#     print('Invalid Entry!')
-#   exclusions = input('Enter words you wish to exclude separated by a space or press enter to skip: ')
-#   pit_stop_required = input('Would you like to include a mandatory word along the path? [Enter Y for yes]: ').strip().upper()
-#   words = read_dictionary(fname, start, exclusions)
-#   break
-
-# count = 0
-# path = [start]
-# seen = {start : True}
-# if pit_stop_required != 'Y':
-#   if find(start, words, seen, target, path):
-#     path.append(target)
-#     print(len(path) - 1, path)
-#   else:
-#     print("No path found")
-# else:
-#   pit_stop = legal_word(input("Enter a word that must exist along the path from start to target: "), start)
-#   existsAlongPath(pit_stop)
-
+  words = read_dictionary(fname, start, exclusions)
+  path = [start]
+  seen = {start : True}
+  
+  if pit_stop_required == 'Y':
+    while True:
+      pit_stop = input("Enter target word: ").strip().upper()
+      if legal_word(pit_stop, words, start):
+        break
+      print('Invalid Entry!')
+    path_with_stop(start, words, seen, target, pit_stop, path)
+  else:
+    if find(start, words, seen, target, path):    #pitStop -> target
+      path.append(target)
+      print(len(path) - 1, path)                        
+    else:
+      print("No path found from start to target.")
+  break
+  
