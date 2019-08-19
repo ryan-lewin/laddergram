@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import unittest
 import os
 from word_ladder import*
@@ -75,6 +77,41 @@ class TestSame(unittest.TestCase):
         first = 'none'
         second = '----'
         self.assertEqual(same(first, second), 0)
+
+class TestBuild(unittest.TestCase):
+    def test_pattern_1(self):
+        self.assertEqual((build('like', ['like', 'tire', 'bird'], {}, [])), ['like'])
+
+    def test_pattern_2(self):
+        word = 'life'
+        self.assertEqual((build(word[1], ['like', 'tire', 'bird'], {}, [])), ['like', 'tire', 'bird'])
+
+    def test_pattern_2(self):
+        word = 'life'
+        self.assertEqual((build(word[3], ['like', 'tire', 'bird'], {}, [])), ['like', 'tire'])
+
+    def test_in_seen(self):
+        self.assertEqual((build('like', ['like', 'tire', 'bird'], {'like': 1}, [])), [])
+
+    def test_in_list(self):
+        self.assertEqual((build('tire', ['like', 'tire', 'bird'], {}, ['tire'])), [])
+
+class TestReadDictionary(unittest.TestCase):
+    def test_correct_count_1(self):
+        self.assertEqual(len(read_dictionary('dictionary.txt', 'hi', [])), 94)
+
+    def test_correct_count_2(self):
+        self.assertEqual(len(read_dictionary('dictionary.txt', 'hi', ['bo', 'ag', 'to'])), 91)
+
+    def test_excludes_words(self):
+        words = read_dictionary('dictionary.txt', 'start', ['bear'])
+        self.assertTrue('bear' not in words)
+
+    def test_filter_word_lengths(self):
+        start = 'test'
+        words = read_dictionary('dictionary.txt', start, [])
+        filtered = [False for word in words if len(word) != len(start)]
+        self.assertTrue(False not in filtered)
 
 if __name__ == "__main__":
     unittest.main()
