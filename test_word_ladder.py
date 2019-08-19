@@ -6,21 +6,25 @@ from word_ladder import*
 
 class TestLegalWord(unittest.TestCase):
     def test_all_alpha(self):
-        word = 'hello'
-        self.assertTrue(legal_word(word))
+        words = ['like', 'tire', 'bird', 'hire']
+        word = 'hire'
+        self.assertTrue(legal_word(word, words))
 
     def test_not_alpha(self):
+        words = ['like', 'tire', 'bird', '$$hELLO999']
         word = '$$hELLO999'
-        self.assertFalse(legal_word(word))
+        self.assertFalse(legal_word(word, words))
 
     def test_if_numbers(self):
+        words = ['like', 'tire', 'bird', 'hello']
         word = '1234567'
-        self.assertFalse(legal_word(word))
+        self.assertFalse(legal_word(word, words))
 
-    def yesy_same_length(self):
+    def test_same_length(self):
+        words = ['like', 'tire', 'bird', 'lead', 'gold']
         first = 'lead'
         second = 'gold'
-        self.assertTrue(legal_word(first, second))
+        self.assertTrue(legal_word(first, words, second))
     
     def test_not_same_length(self):
         first = 'bird'
