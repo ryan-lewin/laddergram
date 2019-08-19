@@ -117,12 +117,51 @@ class TestReadDictionary(unittest.TestCase):
         filtered = [False for word in words if len(word) != len(start)]
         self.assertTrue(False not in filtered)
 
-class TestExistsAlongPath(unittest.TestCase):
-    def no_path_exists(self):
-        words = ['test', 'rest', 'flow', 'stop', 'neck']
-        start = 'gold'
-        pit_stop = 'hide'
-        self.assertEqual(exists_along_path(start, words, {}, pit_stop, [], 'No path found'))
+class TestPathWithStop(unittest.TestCase):
+    def test_path_found(self):
+        start = 'LEAD'
+        words = ['LEAD', 'READ', 'REAM', 'TEAM', 'TRAM', 'GRAM', 'GRAD', 'GOAD', 'GOLD']
+        seen = {start : True}
+        target = 'GOLD'
+        pit_stop = 'GRAM'
+        path = [start]
+        path_with_stop(start, words, seen, target, pit_stop, path)
+        self.assertEqual(path, words)
+
+    def test_no_path_found(self):
+        start = 'LEAD'
+        words = ['LEAD', 'READ', 'REAM', 'TEAM', 'GRAM', 'GRAD', 'GOAD', 'GOLD']
+        seen = {start : True}
+        target = 'GOLD'
+        pit_stop = 'GRAM'
+        path = [start]
+        path_with_stop(start, words, seen, target, pit_stop, path)
+        self.assertNotEqual(path, words)
+
+class TestPath(unittest.TestCase):
+    def test_path_found(self):
+        start = 'HIDE'
+        words = ['HIDE', 'SIDE', 'SITE', 'SITS', 'SIES', 'SEES', 'SEEK']
+        seen = {start : True}
+        target = 'SEEK'
+        path = [start]
+        if find(start, words, seen, target, path):    #pitStop -> target
+            path.append(target)
+        else:
+            path = 'No path found from start to target.'
+        self.assertEqual(path, words)
+
+    def test_no_path_found(self):
+        start = ''
+        words = ['HIDE', 'SIDE', 'SITE', 'SITS', 'SEEK']
+        seen = {start : True}
+        target = 'SEEK'
+        path = [start]
+        if find(start, words, seen, target, path):    #pitStop -> target
+            path.append(target)
+        else:
+            path = 'No path found from start to target.'
+        self.assertEqual(path, 'No path found from start to target.')
 
 if __name__ == "__main__":
     unittest.main()
