@@ -46,6 +46,20 @@ class TestLegalDictionary(unittest.TestCase):
         self.assertTrue(legal_dictionary(fname))
         os.remove(fname)
 
+class TestExcludedWords(unittest.TestCase):
+
+    def test_correct_splitting(self):
+        string = 'This is a test string'
+        self.assertEqual(excluded_words(string), ['This', 'is', 'a', 'test', 'string'])
+
+    def test_no_whitespace(self):
+        string = 'so much       white      space in this      string'
+        self.assertTrue(' ' not in excluded_words(string))
+
+    def test_correct_length(self):
+        string = 'This is a test string'
+        length = 5
+        self.assertEqual(len(excluded_words(string)), length)
 
 if __name__ == "__main__":
     unittest.main()

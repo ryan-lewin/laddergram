@@ -94,7 +94,7 @@ def existsAlongPath(pitStop):
   else:
     print("No path found")
 
-def read_dictionary(fname):
+def read_dictionary(fname, exclusions):
   file = open(fname)
   lines = file.readlines()
   words = []
@@ -122,7 +122,7 @@ while True:
     print('Invalid Entry!')
   exclusions = input('Enter words you wish to exclude separated by a space or press enter to skip: ')
   pit_stop_required = input('Would you like to include a mandatory word along the path? [Enter Y for yes]: ').strip().upper()
-  words = read_dictionary(fname)
+  words = read_dictionary(fname, exclusions)
   break
 
 count = 0
