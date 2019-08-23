@@ -12,7 +12,6 @@ def match_letters(start_word, target):
   for(start_word_i, target_i) in zip(start_word, target):
     if start_word_i == target_i:
       matches = [iterator for iterator, index_list in enumerate(zip(start_word, target)) if all(letter_index == index_list[0] for letter_index in index_list)]
-      print(matches)
   return matches
 
 def same(item, target):
@@ -98,6 +97,10 @@ def path_with_stop(start, words, seen, target, pit_stop, path):
 
 
 def read_dictionary(fname, start = None, exclusions = None):
+  """
+  Opens dictionary file using fname var. If start word has been set it will exclude any words the user has
+  set to be excluded.
+  """
   file = open(fname)
   lines = file.readlines()
   words = []
@@ -110,6 +113,9 @@ def read_dictionary(fname, start = None, exclusions = None):
       words.append(word.upper())
   return words
 
+"""
+Main program - calls all functions in order and collects all user input
+"""
 while True:
   words = []
   while True:
