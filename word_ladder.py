@@ -11,7 +11,8 @@ def match_letters(start_word, target):
   matches = []
   for(start_word_i, target_i) in zip(start_word, target):
     if start_word_i == target_i:
-      matches = [i for i, x in enumerate(zip(start_word, target)) if all(y == x[0] for y in x)]
+      matches = [iterator for iterator, index_list in enumerate(zip(start_word, target)) if all(letter_index == index_list[0] for letter_index in index_list)]
+      print(matches)
   return matches
 
 def same(item, target):
@@ -50,7 +51,7 @@ def find(word, words, seen, target, path):
     if find(item, words, seen, target, path):
       return True
     path.pop()
-
+    
 def legal_word(word, words, start_word = None):
   """
   Validates word. Returns True if word is alpha and optionally if word lengths match.

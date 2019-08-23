@@ -66,6 +66,22 @@ class TestExcludedWords(unittest.TestCase):
         length = 5
         self.assertEqual(len(excluded_words(string)), length)
 
+class TestMatchLetters(unittest.TestCase):
+    def test_one_matching_letter(self):
+        first = 'lead'
+        second = 'gold'
+        self.assertEqual(match_letters(first, second), [3])
+
+    def test_all_matching_letters(self):
+        first = 'gold'
+        second = 'gold'
+        self.assertEqual(match_letters(first, second), [0, 1, 2, 3])
+
+    def test_no_matching_letters(self):
+        first = 'gold'
+        second = 'tame'
+        self.assertEqual(match_letters(first, second), [])
+
 class TestSame(unittest.TestCase):
     def test_one_match(self):
         first = 'bear'
@@ -138,7 +154,7 @@ class TestPathWithStop(unittest.TestCase):
         path_with_stop(start, words, seen, target, pit_stop, path)
         self.assertNotEqual(path, words)
 
-class TestPath(unittest.TestCase):
+class TestFind(unittest.TestCase):
     def test_path_found(self):
         start = 'HIDE'
         words = ['HIDE', 'SIDE', 'SITE', 'SITS', 'SIES', 'SEES', 'SEEK']
