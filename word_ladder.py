@@ -11,7 +11,7 @@ def match_letters(start_word, target):
   matches = []
   for(start_word_i, target_i) in zip(start_word, target):
     if start_word_i == target_i:
-      matches = [iterator for iterator, index_list in enumerate(zip(start_word, target)) if all(letter_index == index_list[0] for letter_index in index_list)]
+      matches = [iterator for iterator, word in enumerate(zip(start_word, target)) if all(letter_index == word[0] for letter_index in word)]
   return matches
 
 def same(item, target):
