@@ -93,7 +93,7 @@ class TestSame(unittest.TestCase):
         second = 'same'
         self.assertEqual(same(first, second), 4)
 
-    def test_all_match(self):
+    def test_none_match(self):
         first = 'none'
         second = '----'
         self.assertEqual(same(first, second), 0)
@@ -106,7 +106,7 @@ class TestBuild(unittest.TestCase):
         word = 'life'
         self.assertEqual((build(word[1], ['like', 'tire', 'bird'], {}, [])), ['like', 'tire', 'bird'])
 
-    def test_pattern_2(self):
+    def test_pattern_3(self):
         word = 'life'
         self.assertEqual((build(word[3], ['like', 'tire', 'bird'], {}, [])), ['like', 'tire'])
 
